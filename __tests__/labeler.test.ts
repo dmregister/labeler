@@ -13,6 +13,22 @@ beforeAll(() => {
 const matchConfig = [{ any: ["*.txt"] }];
 
 describe("checkGlobs", () => {
+  it("returns true when our pattern does match any changed files", () => {
+    const customMatchConfig = [
+      { any: ["path1/docs/**", "path1/src/nested/path/**"] }
+    ];
+    
+    const changedFiles = [
+      "path1/docs/exampled.md",
+      "path1/src/nested/path/otherDir/package.json",
+      ".github/workflows/labeler.yml",
+      ".github/labeler.yml"
+    ];
+    const result = checkGlobs(changedFiles, customMatchConfig);
+
+    expect(result).toBeTruthy();
+  });
+
   it("returns true when our pattern does match changed files", () => {
     const changedFiles = ["foo.txt", "bar.txt"];
     const result = checkGlobs(changedFiles, matchConfig);
